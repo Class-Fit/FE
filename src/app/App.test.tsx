@@ -11,6 +11,6 @@ describe('App', () => {
       </MemoryRouter>,
     )
 
-    expect(screen.getByText('ClassFit')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'ClassFit' })).toBeInTheDocument()
   })
 })
