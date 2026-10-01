@@ -6,10 +6,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { ApiError } from '../../../shared/api/apiError'
 import { getCourse } from '../api/courseApi'
 import type { CourseDetail } from '../api/courseTypes'
+import { getCurrentMember } from '../../auth/api/memberApi'
 import { CourseDetailPage } from './CourseDetailPage'
 
 vi.mock('../api/courseApi', () => ({ getCourse: vi.fn() }))
+vi.mock('../../auth/api/memberApi', () => ({ getCurrentMember: vi.fn() }))
 const getCourseMock = vi.mocked(getCourse)
+const getCurrentMemberMock = vi.mocked(getCurrentMember)
 
 const detail: CourseDetail = {
   courseId: 17,
@@ -45,6 +48,8 @@ describe('CourseDetailPage', () => {
   beforeEach(() => {
     getCourseMock.mockReset()
     getCourseMock.mockResolvedValue(detail)
+    getCurrentMemberMock.mockReset()
+    getCurrentMemberMock.mockResolvedValue(null)
   })
 
   it('renders_course_information', async () => {
@@ -92,5 +97,12 @@ describe('CourseDetailPage', () => {
     renderPage()
     await user.click(await screen.findByRole('button', { name: '다시 시도' }))
     await waitFor(() => expect(getCourseMock).toHaveBeenCalledTimes(2))
+  })
+
+  it('keeps_public_detail_visible_when_member_request_is_401', async () => {
+    getCurrentMemberMock.mockResolvedValue(null)
+    renderPage()
+    expect(await screen.findByRole('heading', { name: detail.courseName })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '찜하기' })).toBeInTheDocument()
   })
 })

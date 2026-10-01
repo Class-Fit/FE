@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, Building2, CalendarDays, CircleUserRound, MapPin, Trophy, WalletCards } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { ApiError } from '../../../shared/api/apiError'
+import { FavoriteButton } from '../../favorites/components/FavoriteButton'
 import { getCourse } from '../api/courseApi'
 import { formatFee, formatSchedule } from '../utils/formatCourse'
 import styles from './CourseDetailPage.module.css'
@@ -66,9 +67,14 @@ export function CourseDetailPage() {
       <Link className={styles.backLink} to="/courses"><ArrowLeft aria-hidden="true" size={18} />강좌 목록으로</Link>
 
       <header className={styles.hero}>
-        {hasText(course.sportName) && <span className={styles.badge}>{course.sportName}</span>}
-        <h1>{course.courseName}</h1>
-        <p>{course.facilityName}</p>
+        <div className={styles.heroContent}>
+          <div>
+            {hasText(course.sportName) && <span className={styles.badge}>{course.sportName}</span>}
+            <h1>{course.courseName}</h1>
+            <p>{course.facilityName}</p>
+          </div>
+          <FavoriteButton courseId={course.courseId} />
+        </div>
       </header>
 
       <div className={styles.layout}>
@@ -104,4 +110,3 @@ function Recovery({ title, description }: { title: string; description: string }
     </div>
   )
 }
-
