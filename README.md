@@ -37,7 +37,7 @@ Vercel 프로젝트의 Root Directory는 저장소 루트로 두고 Framework Pr
 
 `vercel.json`은 `/courses` 같은 클라이언트 경로로 직접 접속하거나 새로고침해도 React 앱을 제공하도록 구성합니다.
 
-운영 번들의 API 요청과 카카오 로그인 링크는 이 주소로 이동합니다. 백엔드에는 해당 Vercel 배포 주소를 `CLASSFIT_FRONTEND_ORIGIN`으로 등록해야 하며, 로그인 성공 시 프론트 강좌 페이지로 돌아오도록 설정해야 합니다.
+운영 번들의 API 요청과 카카오 로그인 링크는 이 주소로 이동합니다. 프론트는 `app.<소유 도메인>`, 백엔드는 `api.<소유 도메인>`처럼 같은 사이트의 사용자 지정 도메인에 연결해야 브라우저 세션 쿠키가 안정적으로 동작합니다. 기본 `*.vercel.app` 주소는 운영 로그인 주소로 사용하지 않습니다. 백엔드의 `CLASSFIT_FRONTEND_ORIGIN`에는 프론트의 HTTPS Origin을 등록하며, 로그인 성공 시 프론트 강좌 페이지로 돌아옵니다.
 
 - `test`: Vitest와 React Testing Library로 API 변환, 검색 URL, 상세 상태, 인증과 찜 동작을 검증합니다.
 - `build`: TypeScript 검사 후 production 번들을 생성합니다.
@@ -61,6 +61,6 @@ node scripts/generate-course-filters.mjs
 ## 백엔드 연동 제약
 
 - 카카오 로그인 시작 주소는 `/oauth2/authorization/kakao`입니다.
-- 현재 백엔드는 로그인 성공 후 `/api/members/me` JSON으로 이동합니다. 완성된 로그인 사용자 흐름을 위해 OAuth2 성공 URL을 프론트 주소로 변경해야 합니다.
+- 운영 백엔드는 로그인 성공 후 `CLASSFIT_FRONTEND_ORIGIN`의 `/courses`로 이동합니다. 로컬 기본 설정은 `/api/members/me`로 이동합니다.
 - 로그아웃 API는 CSRF 토큰이 필요하지만 프론트에 토큰을 전달하는 계약이 아직 없어 이번 범위에는 로그아웃 버튼을 포함하지 않았습니다.
-- 개발 서버 프록시를 사용하지 않고 서로 다른 도메인에 배포하면 백엔드 CORS와 세션 쿠키의 `SameSite`·`Secure` 정책을 함께 설정해야 합니다.
+- 운영 API와 프론트는 `api.<소유 도메인>`·`app.<소유 도메인>`의 같은 사이트로 배치합니다. 백엔드 CORS는 프론트 Origin 하나만 허용하며 세션 쿠키는 `Secure; SameSite=Lax`로 설정합니다.
