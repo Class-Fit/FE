@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Search } from 'lucide-react'
 import { REGION_OPTIONS, SPORT_OPTIONS } from '../data/filterOptions'
 import styles from './CourseSearchForm.module.css'
@@ -16,8 +16,6 @@ interface CourseSearchFormProps {
 
 export function CourseSearchForm({ values, onSearch }: CourseSearchFormProps) {
   const [draft, setDraft] = useState(values)
-
-  useEffect(() => setDraft(values), [values])
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -60,4 +58,3 @@ export function CourseSearchForm({ values, onSearch }: CourseSearchFormProps) {
     </form>
   )
 }
-

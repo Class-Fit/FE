@@ -60,7 +60,11 @@ export function CourseSearchPage() {
         <p>지역 공공 체육시설의 강좌를 종목과 지역으로 한 번에 검색할 수 있어요.</p>
       </header>
 
-      <CourseSearchForm values={formValues} onSearch={applyFilters} />
+      <CourseSearchForm
+        key={`${formValues.keyword}:${formValues.localCode}:${formValues.sportCode}`}
+        values={formValues}
+        onSearch={applyFilters}
+      />
 
       {query.isPending && <div className={styles.skeletonGrid} aria-label="강좌를 불러오는 중">{Array.from({ length: 6 }, (_, i) => <div key={i} />)}</div>}
 

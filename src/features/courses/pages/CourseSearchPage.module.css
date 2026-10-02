@@ -20,6 +20,7 @@
   font-size: clamp(2rem, 5vw, 3.25rem);
   line-height: 1.15;
   letter-spacing: -0.055em;
+  word-break: keep-all;
 }
 
 .hero p,
@@ -109,4 +110,3 @@
     display: block;
   }
 }
-
