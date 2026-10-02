@@ -44,7 +44,11 @@ export function CourseDetailPage() {
   }
 
   if (query.isError) {
-    if (query.error instanceof ApiError && query.error.errorCode === 'COURSE_NOT_FOUND') {
+    if (query.error instanceof ApiError && (
+      query.error.status === 404
+      || query.error.errorCode === 'RESOURCE_NOT_FOUND'
+      || query.error.errorCode === 'COURSE_NOT_FOUND'
+    )) {
       return <Recovery title="강좌를 찾을 수 없습니다." description="삭제되었거나 더 이상 제공하지 않는 강좌일 수 있습니다." />
     }
     return (
