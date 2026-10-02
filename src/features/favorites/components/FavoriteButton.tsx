@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Heart, X } from 'lucide-react'
 import { ApiError } from '../../../shared/api/apiError'
+import { backendOrigin } from '../../../shared/api/backendOrigin'
 import { useCurrentMember } from '../../auth/hooks/useCurrentMember'
 import { addFavorite, getFavorites, removeFavorite } from '../api/favoriteApi'
 import styles from './FavoriteButton.module.css'
@@ -84,7 +85,7 @@ export function FavoriteButton({ courseId }: { courseId: number }) {
           <button type="button" className={styles.close} aria-label="로그인 안내 닫기" onClick={() => setShowLogin(false)}><X aria-hidden="true" /></button>
           <strong>찜하려면 로그인이 필요합니다.</strong>
           <p>카카오 계정으로 로그인하고 관심 강좌를 모아보세요.</p>
-          <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
+          <a href={`${backendOrigin}/oauth2/authorization/kakao`}>카카오로 로그인</a>
         </div>
       )}
 

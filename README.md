@@ -31,6 +31,14 @@ npm run build
 npm run lint
 ```
 
+## Vercel 운영 배포
+
+Vercel 프로젝트의 Root Directory는 저장소 루트로 두고 Framework Preset은 Vite를 선택합니다. Production 환경변수 `VITE_BACKEND_URL`에는 실제 백엔드 HTTPS Origin(예: `https://api.example.com`)을 설정합니다. 경로나 끝 슬래시는 넣지 않습니다. 설정이 빠지거나 HTTP 주소이면 운영 빌드가 실패합니다.
+
+`vercel.json`은 `/courses` 같은 클라이언트 경로로 직접 접속하거나 새로고침해도 React 앱을 제공하도록 구성합니다.
+
+운영 번들의 API 요청과 카카오 로그인 링크는 이 주소로 이동합니다. 백엔드에는 해당 Vercel 배포 주소를 `CLASSFIT_FRONTEND_ORIGIN`으로 등록해야 하며, 로그인 성공 시 프론트 강좌 페이지로 돌아오도록 설정해야 합니다.
+
 - `test`: Vitest와 React Testing Library로 API 변환, 검색 URL, 상세 상태, 인증과 찜 동작을 검증합니다.
 - `build`: TypeScript 검사 후 production 번들을 생성합니다.
 - `lint`: ESLint로 TypeScript와 React Hook 규칙을 검사합니다.
