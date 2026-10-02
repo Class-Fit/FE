@@ -1,0 +1,112 @@
+.page {
+  display: grid;
+  gap: 32px;
+}
+
+.hero {
+  max-width: 720px;
+}
+
+.hero span {
+  color: var(--color-primary-strong);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.hero h1 {
+  margin: 8px 0;
+  color: var(--color-heading);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.055em;
+  word-break: keep-all;
+}
+
+.hero p,
+.resultHeader p,
+.state p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.results {
+  display: grid;
+  gap: 22px;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.resultHeader h2 {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: 1.4rem;
+}
+
+.courseGrid,
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.skeletonGrid div {
+  min-height: 330px;
+  border-radius: 22px;
+  background: linear-gradient(100deg, #e9f2ee 20%, #f7fbf9 40%, #e9f2ee 60%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.state {
+  display: grid;
+  justify-items: center;
+  padding: 56px 20px;
+  border: 1px dashed #bed8cc;
+  border-radius: 22px;
+  background: rgb(255 255 255 / 62%);
+  text-align: center;
+}
+
+.state h2 {
+  margin: 12px 0 5px;
+  color: var(--color-heading);
+  font-size: 1.15rem;
+}
+
+.state button {
+  margin-top: 18px;
+  padding: 10px 17px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+@keyframes shimmer {
+  to { background-position-x: -200%; }
+}
+
+@media (max-width: 960px) {
+  .courseGrid,
+  .skeletonGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .courseGrid,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .resultHeader {
+    display: block;
+  }
+}
