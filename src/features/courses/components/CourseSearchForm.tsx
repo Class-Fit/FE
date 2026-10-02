@@ -25,13 +25,13 @@ export function CourseSearchForm({ values, onSearch }: CourseSearchFormProps) {
   return (
     <form className={styles.form} role="search" onSubmit={submit}>
       <label className={styles.keywordField}>
-        <span>강좌명 또는 시설명</span>
+        <span>강좌명</span>
         <div className={styles.inputWrap}>
           <Search aria-hidden="true" size={19} />
           <input
             type="search"
             value={draft.keyword}
-            placeholder="예: 수영, 국민체육센터"
+            placeholder="예: 어린이 수영"
             onChange={(event) => setDraft({ ...draft, keyword: event.target.value })}
           />
         </div>

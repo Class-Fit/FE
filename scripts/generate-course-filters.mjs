@@ -12,17 +12,23 @@ async function readRows(fileName) {
 
 const regionRows = await readRows('regions.csv')
 const sportRows = await readRows('sports.csv')
-const seenSportNames = new Set()
-
 const regions = regionRows
-  .filter(([code, name]) => code && name)
-  .map(([value, label]) => ({ value, label }))
+  .filter(([code, name]) => code && name && !code.endsWith('000'))
+  .map(([value, label]) => ({ value, label: label.trim() }))
 
-const sports = sportRows.flatMap(([value, label]) => {
-  if (!value || !label || seenSportNames.has(label)) return []
-  seenSportNames.add(label)
-  return [{ value, label }]
-})
+const validSports = sportRows
+  .filter(([value, label]) => value && label)
+  .map(([value, label]) => ({ value, label: label.trim() }))
+const sportNameCounts = new Map()
+
+for (const { label } of validSports) {
+  sportNameCounts.set(label, (sportNameCounts.get(label) ?? 0) + 1)
+}
+
+const sports = validSports.map(({ value, label }) => ({
+  value,
+  label: sportNameCounts.get(label) > 1 ? `${label} (${value})` : label,
+}))
 
 const source = `// 백엔드 CSV에서 생성됩니다. 직접 수정하지 마세요.\n` +
   `export interface FilterOption { value: string; label: string }\n\n` +

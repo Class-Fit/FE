@@ -7,10 +7,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "전체"
   },
   {
-    "value": "11000",
-    "label": "서울특별시"
-  },
-  {
     "value": "11110",
     "label": "서울특별시 종로구"
   },
@@ -111,10 +107,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "서울특별시 강동구"
   },
   {
-    "value": "26000",
-    "label": "부산광역시"
-  },
-  {
     "value": "26110",
     "label": "부산광역시 중구"
   },
@@ -179,10 +171,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "부산광역시 기장군"
   },
   {
-    "value": "27000",
-    "label": "대구광역시"
-  },
-  {
     "value": "27110",
     "label": "대구광역시 중구"
   },
@@ -217,10 +205,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "27720",
     "label": "대구광역시 군위군"
-  },
-  {
-    "value": "28000",
-    "label": "인천광역시"
   },
   {
     "value": "28110",
@@ -263,10 +247,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "인천광역시 옹진군"
   },
   {
-    "value": "29000",
-    "label": "광주광역시"
-  },
-  {
     "value": "29110",
     "label": "광주광역시 동구"
   },
@@ -287,10 +267,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "광주광역시 광산구"
   },
   {
-    "value": "30000",
-    "label": "대전광역시"
-  },
-  {
     "value": "30110",
     "label": "대전광역시 동구"
   },
@@ -309,10 +285,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "30230",
     "label": "대전광역시 대덕구"
-  },
-  {
-    "value": "31000",
-    "label": "울산광역시"
   },
   {
     "value": "31110",
@@ -337,10 +309,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "36110",
     "label": "세종특별자치시"
-  },
-  {
-    "value": "41000",
-    "label": "경기도"
   },
   {
     "value": "41110",
@@ -400,15 +368,15 @@ export const REGION_OPTIONS: FilterOption[] = [
   },
   {
     "value": "41192",
-    "label": "경기도 부천시 원미구 "
+    "label": "경기도 부천시 원미구"
   },
   {
     "value": "41194",
-    "label": "경기도 부천시 소사구 "
+    "label": "경기도 부천시 소사구"
   },
   {
     "value": "41196",
-    "label": "경기도 부천시 오정구 "
+    "label": "경기도 부천시 오정구"
   },
   {
     "value": "41210",
@@ -547,10 +515,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "경기도 양평군"
   },
   {
-    "value": "43000",
-    "label": "충청북도"
-  },
-  {
     "value": "43110",
     "label": "충청북도 청주시"
   },
@@ -609,10 +573,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "43800",
     "label": "충청북도 단양군"
-  },
-  {
-    "value": "44000",
-    "label": "충청남도"
   },
   {
     "value": "44130",
@@ -681,10 +641,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "44825",
     "label": "충청남도 태안군"
-  },
-  {
-    "value": "46000",
-    "label": "전라남도"
   },
   {
     "value": "46110",
@@ -773,10 +729,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "46910",
     "label": "전라남도 신안군"
-  },
-  {
-    "value": "47000",
-    "label": "경상북도"
   },
   {
     "value": "47110",
@@ -875,10 +827,6 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "경상북도 울릉군"
   },
   {
-    "value": "48000",
-    "label": "경상남도"
-  },
-  {
     "value": "48120",
     "label": "경상남도 창원시"
   },
@@ -971,20 +919,12 @@ export const REGION_OPTIONS: FilterOption[] = [
     "label": "경상남도 합천군"
   },
   {
-    "value": "50000",
-    "label": "제주특별자치도"
-  },
-  {
     "value": "50110",
     "label": "제주특별자치도 제주시"
   },
   {
     "value": "50130",
     "label": "제주특별자치도 서귀포시"
-  },
-  {
-    "value": "51000",
-    "label": "강원특별자치도"
   },
   {
     "value": "51110",
@@ -1057,10 +997,6 @@ export const REGION_OPTIONS: FilterOption[] = [
   {
     "value": "51830",
     "label": "강원특별자치도 양양군"
-  },
-  {
-    "value": "52000",
-    "label": "전북특별자치도"
   },
   {
     "value": "52110",
@@ -1143,7 +1079,7 @@ export const SPORT_OPTIONS: FilterOption[] = [
   },
   {
     "value": "03",
-    "label": "기타종목"
+    "label": "기타종목 (03)"
   },
   {
     "value": "04",
@@ -1155,7 +1091,7 @@ export const SPORT_OPTIONS: FilterOption[] = [
   },
   {
     "value": "07",
-    "label": "댄스(줌바 등)"
+    "label": "댄스(줌바 등) (07)"
   },
   {
     "value": "08",
@@ -1199,7 +1135,7 @@ export const SPORT_OPTIONS: FilterOption[] = [
   },
   {
     "value": "22",
-    "label": "태권도"
+    "label": "태권도 (22)"
   },
   {
     "value": "23",
@@ -1247,7 +1183,23 @@ export const SPORT_OPTIONS: FilterOption[] = [
   },
   {
     "value": "79",
-    "label": "필라테스"
+    "label": "필라테스 (79)"
+  },
+  {
+    "value": "82",
+    "label": "기타종목 (82)"
+  },
+  {
+    "value": "85",
+    "label": "댄스(줌바 등) (85)"
+  },
+  {
+    "value": "96",
+    "label": "태권도 (96)"
+  },
+  {
+    "value": "106",
+    "label": "필라테스 (106)"
   },
   {
     "value": "109",

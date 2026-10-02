@@ -58,7 +58,7 @@ describe('CourseSearchPage', () => {
   it('reads_filters_from_url', async () => {
     renderPage('/courses?keyword=수영&localCode=11110&sportCode=12&page=2')
 
-    expect(screen.getByRole('searchbox', { name: '강좌명 또는 시설명' })).toHaveValue('수영')
+    expect(screen.getByRole('searchbox', { name: '강좌명' })).toHaveValue('수영')
     expect(screen.getByRole('combobox', { name: '지역' })).toHaveValue('11110')
     expect(screen.getByRole('combobox', { name: '종목' })).toHaveValue('12')
     await waitFor(() => expect(getCoursesMock).toHaveBeenCalledWith({ keyword: '수영', localCode: '11110', sportCode: '12', page: 2 }))
@@ -68,7 +68,7 @@ describe('CourseSearchPage', () => {
     const user = userEvent.setup()
     renderPage('/courses?keyword=수영&page=4')
 
-    const input = screen.getByRole('searchbox', { name: '강좌명 또는 시설명' })
+    const input = screen.getByRole('searchbox', { name: '강좌명' })
     await user.clear(input)
     await user.type(input, '  요가  ')
     await user.click(screen.getByRole('button', { name: '검색' }))
