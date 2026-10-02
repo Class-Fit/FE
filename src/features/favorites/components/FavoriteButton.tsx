@@ -29,13 +29,13 @@ export function FavoriteButton({ courseId }: { courseId: number }) {
       setOptimisticState(next)
       return { previous }
     },
-    onError: (error, _next, context) => {
-      setOptimisticState(context?.previous ?? serverState)
+    onError: (error) => {
+      setOptimisticState(null)
       setErrorMessage(error instanceof ApiError ? error.message : '찜을 변경하지 못했습니다.')
     },
-    onSuccess: (_result, next) => {
-      setOptimisticState(next)
-      void queryClient.invalidateQueries({ queryKey: ['favorites'] })
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['favorites'] })
+      setOptimisticState(null)
       void queryClient.invalidateQueries({ queryKey: ['course', courseId] })
       void queryClient.invalidateQueries({ queryKey: ['home'] })
     },
@@ -49,6 +49,8 @@ export function FavoriteButton({ courseId }: { courseId: number }) {
     mutation.mutate(!favorited)
   }
 
+  const stateUnavailable = memberQuery.isError || (Boolean(memberQuery.data) && !favoritesQuery.isSuccess)
+
   return (
     <div className={styles.wrapper}>
       <button
@@ -56,12 +58,26 @@ export function FavoriteButton({ courseId }: { courseId: number }) {
         className={`${styles.favoriteButton} ${favorited ? styles.active : ''}`}
         aria-label={favorited ? '찜 취소' : '찜하기'}
         aria-pressed={favorited}
-        disabled={memberQuery.isPending || (Boolean(memberQuery.data) && favoritesQuery.isPending) || mutation.isPending}
+        disabled={memberQuery.isPending || stateUnavailable || mutation.isPending}
         onClick={toggleFavorite}
       >
         <Heart aria-hidden="true" fill={favorited ? 'currentColor' : 'none'} />
         <span>{favorited ? '찜한 강좌' : '찜하기'}</span>
       </button>
+
+      {memberQuery.isError && (
+        <div className={styles.status} role="alert">
+          <span>로그인 상태를 확인하지 못했습니다.</span>
+          <button type="button" onClick={() => memberQuery.refetch()}>로그인 상태 다시 시도</button>
+        </div>
+      )}
+
+      {memberQuery.data && favoritesQuery.isError && (
+        <div className={styles.status} role="alert">
+          <span>찜 상태를 확인하지 못했습니다.</span>
+          <button type="button" onClick={() => favoritesQuery.refetch()}>찜 상태 다시 시도</button>
+        </div>
+      )}
 
       {showLogin && !memberQuery.data && (
         <div className={styles.loginPrompt} role="dialog" aria-label="로그인 안내">

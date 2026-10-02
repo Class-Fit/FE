@@ -16,6 +16,7 @@ const useCurrentMemberMock = vi.mocked(useCurrentMember)
 const getFavoritesMock = vi.mocked(getFavorites)
 const addFavoriteMock = vi.mocked(addFavorite)
 const removeFavoriteMock = vi.mocked(removeFavorite)
+let favorite = false
 
 function renderButton() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } })
@@ -25,10 +26,17 @@ function renderButton() {
 describe('FavoriteButton', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    favorite = false
     useCurrentMemberMock.mockReturnValue({ data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, isPending: false } as ReturnType<typeof useCurrentMember>)
-    getFavoritesMock.mockResolvedValue([])
-    addFavoriteMock.mockResolvedValue({ courseId: 17, favorited: true })
-    removeFavoriteMock.mockResolvedValue({ courseId: 17, favorited: false })
+    getFavoritesMock.mockImplementation(async () => favorite ? [{ courseId: 17 } as Awaited<ReturnType<typeof getFavorites>>[number]] : [])
+    addFavoriteMock.mockImplementation(async () => {
+      favorite = true
+      return { courseId: 17, favorited: true }
+    })
+    removeFavoriteMock.mockImplementation(async () => {
+      favorite = false
+      return { courseId: 17, favorited: false }
+    })
   })
 
   it('shows_login_prompt_for_anonymous_favorite', async () => {
