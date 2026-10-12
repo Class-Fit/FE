@@ -56,12 +56,20 @@ describe('CourseSearchPage', () => {
   })
 
   it('reads_filters_from_url', async () => {
-    renderPage('/courses?keyword=수영&localCode=11110&sportCode=12&page=2')
+    renderPage('/courses?keyword=수영&localCode=51130&sportCode=12&page=2')
 
     expect(screen.getByRole('searchbox', { name: '강좌명' })).toHaveValue('수영')
-    expect(screen.getByRole('combobox', { name: '지역' })).toHaveValue('11110')
+    expect(screen.getByRole('combobox', { name: '지역' })).toHaveValue('51130')
     expect(screen.getByRole('combobox', { name: '종목' })).toHaveValue('12')
-    await waitFor(() => expect(getCoursesMock).toHaveBeenCalledWith({ keyword: '수영', localCode: '11110', sportCode: '12', page: 2 }))
+    await waitFor(() => expect(getCoursesMock).toHaveBeenCalledWith({ keyword: '수영', localCode: '51130', sportCode: '12', page: 2 }))
+  })
+
+  it('offers_only_gangwon_regions', () => {
+    renderPage()
+    const regions = Array.from(screen.getByRole('combobox', { name: '지역' }).querySelectorAll('option'))
+    expect(regions).toHaveLength(19)
+    expect(regions[0]).toHaveTextContent('전체')
+    expect(regions.slice(1).every((option) => option.textContent?.startsWith('강원특별자치도'))).toBe(true)
   })
 
   it('submits_trimmed_filters_and_resets_page', async () => {

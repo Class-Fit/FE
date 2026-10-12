@@ -3,6 +3,10 @@ import { Search } from 'lucide-react'
 import { REGION_OPTIONS, SPORT_OPTIONS } from '../data/filterOptions'
 import styles from './CourseSearchForm.module.css'
 
+const gangwonRegionOptions = REGION_OPTIONS.filter((option) =>
+  option.value === 'all' || option.label.startsWith('강원특별자치도 '),
+)
+
 export interface CourseFilterValues {
   keyword: string
   localCode: string
@@ -40,7 +44,7 @@ export function CourseSearchForm({ values, onSearch }: CourseSearchFormProps) {
       <label>
         <span>지역</span>
         <select value={draft.localCode} onChange={(event) => setDraft({ ...draft, localCode: event.target.value })}>
-          {REGION_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          {gangwonRegionOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
         </select>
       </label>
 

@@ -34,4 +34,11 @@ describe('AppShell', () => {
 
     expect(screen.getByRole('heading', { name: '강좌 검색 결과' })).toBeInTheDocument()
   })
+
+  it('links_to_kakao_login', () => {
+    renderShell()
+
+    expect(screen.getByRole('link', { name: '카카오 로그인' }))
+      .toHaveAttribute('href', '/oauth2/authorization/kakao')
+  })
 })

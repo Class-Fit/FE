@@ -1,6 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { backendOrigin } from '../../shared/api/backendOrigin'
 import { NAVIGATION_ITEMS } from '../navigation/navigationItems'
 import styles from './AppShell.module.css'
+
+const kakaoLoginUrl = `${backendOrigin || ''}/oauth2/authorization/kakao`
 
 function Navigation({ mobile = false }: { mobile?: boolean }) {
   return (
@@ -31,7 +34,10 @@ export function AppShell() {
             <span className={styles.brandMark}>C</span>
             <span>ClassFit</span>
           </NavLink>
-          <Navigation />
+          <div className={styles.headerActions}>
+            <Navigation />
+            <a className={styles.kakaoLogin} href={kakaoLoginUrl}>카카오 로그인</a>
+          </div>
         </div>
       </header>
 
@@ -43,4 +49,3 @@ export function AppShell() {
     </div>
   )
 }
-

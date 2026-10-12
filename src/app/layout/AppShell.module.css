@@ -43,6 +43,32 @@
   color: white;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.kakaoLogin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: #fee500;
+  color: #191919;
+  font-size: 0.88rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.kakaoLogin:hover,
+.kakaoLogin:focus-visible {
+  background: #f4dc00;
+}
+
 .desktopNavigation {
   display: flex;
   align-items: center;
@@ -94,6 +120,12 @@
     display: none;
   }
 
+  .kakaoLogin {
+    min-height: 38px;
+    padding: 0 12px;
+    font-size: 0.8rem;
+  }
+
   .content {
     width: min(calc(100% - 32px), var(--content-max-width));
     padding: 28px 0 104px;
@@ -123,4 +155,3 @@
     white-space: nowrap;
   }
 }
-
