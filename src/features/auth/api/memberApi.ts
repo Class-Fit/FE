@@ -14,6 +14,12 @@ export async function getCurrentMember(): Promise<Member | null> {
   }
 }
 
+export async function logout(): Promise<void> {
+  const response = await httpClient.get<ApiResponse<{ token: string }>>('/api/auth/csrf')
+  const { token } = unwrapApiResponse(response.data)
+  await httpClient.post('/api/auth/logout', undefined, { headers: { 'X-CSRF-TOKEN': token } })
+}
+
 function isUnauthorizedAxiosError(error: unknown): boolean {
   if (!error || typeof error !== 'object') return false
   const candidate = error as { isAxiosError?: boolean; response?: { status?: number } }
