@@ -1,0 +1,33 @@
+.page { display: grid; gap: 24px; }
+.header span { color: var(--color-primary-strong); font-size: .78rem; font-weight: 800; letter-spacing: .14em; }
+.header h1 { margin: 8px 0; color: var(--color-heading); font-size: clamp(2rem, 5vw, 3rem); }
+.header p { margin: 0; color: var(--color-muted); }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 600px; border: 1px solid var(--color-border); border-radius: 22px; overflow: hidden; background: white; }
+.sidebar { padding: 18px; border-right: 1px solid var(--color-border); background: #f7fbf9; }
+.sidebar > button { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 0; border-radius: 10px; background: var(--color-primary); color: white; font: inherit; font-weight: 750; cursor: pointer; }
+.sidebar ul { padding: 0; margin: 18px 0; list-style: none; }
+.sidebar li + li { margin-top: 5px; }
+.sidebar li button { width: 100%; padding: 11px; border: 0; border-radius: 9px; background: transparent; color: var(--color-text); font: inherit; text-align: left; cursor: pointer; }
+.sidebar li button.selected { background: var(--color-primary-soft); color: var(--color-primary-strong); font-weight: 750; }
+.chat { display: flex; flex-direction: column; min-width: 0; }
+.transcript { display: flex; flex: 1; flex-direction: column; gap: 16px; min-height: 420px; padding: 22px; }
+.empty { margin: auto; color: var(--color-muted); text-align: center; }
+.empty h2 { color: var(--color-heading); }
+.message { max-width: 90%; padding: 16px; border-radius: 18px; overflow-wrap: anywhere; }
+.message p { white-space: pre-wrap; margin: 8px 0 0; }
+.userMessage { align-self: flex-end; background: var(--color-primary); color: white; }
+.assistantMessage { align-self: flex-start; background: #f0f6f3; color: var(--color-text); }
+.recommendedCourses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.sports { padding-left: 20px; }
+.composer { display: flex; align-items: end; gap: 10px; padding: 16px; border-top: 1px solid var(--color-border); }
+.composer label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+.composer textarea { flex: 1; min-height: 64px; padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; font: inherit; resize: vertical; }
+.composer button { display: flex; align-items: center; gap: 5px; padding: 12px 14px; border: 0; border-radius: 10px; background: var(--color-primary); color: white; font: inherit; font-weight: 750; cursor: pointer; }
+.composer button:disabled, .sidebar button:disabled { opacity: .5; cursor: not-allowed; }
+.error { margin: 0 16px; color: var(--color-danger); }
+.searchLink { align-self: flex-end; margin: 0 18px 14px; color: var(--color-primary-strong); }
+.gate { display: grid; justify-items: center; gap: 12px; padding: 70px 20px; border-radius: 22px; background: white; text-align: center; }
+.gate h1 { margin: 0; color: var(--color-heading); }
+.gate p { margin: 0; }
+.gate a { margin-top: 10px; padding: 12px 18px; border-radius: 10px; background: #fee500; color: #191919; font-weight: 750; text-decoration: none; }
+@media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .sidebar { border-right: 0; border-bottom: 1px solid var(--color-border); } .sidebar ul { display: flex; gap: 5px; overflow-x: auto; } .sidebar li + li { margin: 0; } .sidebar li button { white-space: nowrap; } .recommendedCourses { grid-template-columns: 1fr; } .message { max-width: 100%; } }

@@ -18,7 +18,7 @@ afterAll(() => server.close())
 
 function renderShell(child = <p>자식 화면</p>) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } })
-  return render(
+  return { queryClient, ...render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={['/courses']}>
         <Routes>
@@ -28,7 +28,7 @@ function renderShell(child = <p>자식 화면</p>) {
         </Routes>
       </MemoryRouter>
     </QueryClientProvider>,
-  )
+  ) }
 }
 
 describe('AppShell', () => {
@@ -69,14 +69,16 @@ describe('AppShell', () => {
       }),
     )
     const user = userEvent.setup()
-    renderShell()
+    const { queryClient } = renderShell()
 
+    queryClient.setQueryData(['chat', 'messages', 7], [{ messageId: 1, content: '개인 대화' }])
     const logout = await screen.findByRole('button', { name: '로그아웃' })
     expect(screen.queryByRole('link', { name: '카카오 로그인' })).not.toBeInTheDocument()
     await user.click(logout)
 
     await waitFor(() => expect(sentToken).toBe('csrf-token'))
     expect(await screen.findByRole('link', { name: '카카오 로그인' })).toBeInTheDocument()
+    expect(queryClient.getQueryData(['chat', 'messages', 7])).toBeUndefined()
   })
 
   it('keeps_logout_visible_when_server_rejects_logout', async () => {

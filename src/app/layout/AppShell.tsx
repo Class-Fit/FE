@@ -36,6 +36,8 @@ export function AppShell() {
     onSuccess: () => {
       queryClient.setQueryData(['member'], null)
       queryClient.removeQueries({ queryKey: ['favorites'] })
+      queryClient.removeQueries({ queryKey: ['chat'] })
+      queryClient.invalidateQueries({ queryKey: ['home'] })
     },
   })
 

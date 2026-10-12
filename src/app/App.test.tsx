@@ -8,13 +8,18 @@ import { App } from './App'
 
 const server = setupServer(
   http.get('*/api/members/me', () => HttpResponse.json({ success: false, data: null, errorCode: 'UNAUTHORIZED', message: '로그인이 필요합니다.' }, { status: 401 })),
+  http.get('*/api/home', () => HttpResponse.json({ success: true, data: {
+    member: { loggedIn: false, id: null, name: null },
+    popularCourses: [{ courseId: 1, courseName: '인기 수영', sportCode: '01', sportName: '수영', facilityName: '체육관', address: '원주시', startTime: '09:00', endTime: '10:00', weekdays: '월', fee: 10000 }],
+    latestCourses: [], latestInBody: null,
+  }, errorCode: null, message: null })),
 )
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 afterAll(() => server.close())
 
 describe('App', () => {
-  it('renders_classfit_application_root', () => {
+  it('shows_backend_home_courses', async () => {
     render(
       <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
         <MemoryRouter>
@@ -23,6 +28,6 @@ describe('App', () => {
       </QueryClientProvider>,
     )
 
-    expect(screen.getByRole('heading', { name: 'ClassFit' })).toBeInTheDocument()
+    expect(await screen.findByRole('link', { name: '인기 수영' })).toHaveAttribute('href', '/courses/1')
   })
 })
