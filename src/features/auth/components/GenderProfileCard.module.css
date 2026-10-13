@@ -1,0 +1,18 @@
+.card {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: white;
+}
+
+.card h2 { margin: 0 0 6px; color: var(--color-heading); font-size: 1.18rem; }
+.card p { margin: 0; color: var(--color-muted); }
+.card form { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.card label { font-weight: 750; }
+.card select { min-width: 150px; padding: 10px; border: 1px solid var(--color-border); border-radius: 10px; background: white; font: inherit; }
+.card button { padding: 10px 16px; border: 0; border-radius: 10px; background: var(--color-primary); color: white; font: inherit; font-weight: 750; cursor: pointer; }
+.card button:disabled { opacity: .55; cursor: not-allowed; }
+.card .success { color: var(--color-primary-strong); }
+.card .error { color: var(--color-danger); }

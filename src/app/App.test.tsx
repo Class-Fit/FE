@@ -34,7 +34,7 @@ describe('App', () => {
   })
 
   it('opens_inbody_photo_record_page', async () => {
-    server.use(http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, errorCode: null, message: null })))
+    server.use(http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' }, errorCode: null, message: null })))
     render(
       <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
         <MemoryRouter initialEntries={['/inbody']}><App /></MemoryRouter>
@@ -45,11 +45,35 @@ describe('App', () => {
     expect(screen.getByLabelText('인바디 사진')).toBeInTheDocument()
   })
 
+  it('saves_missing_gender_from_inbody_page_and_updates_member_state', async () => {
+    const user = userEvent.setup()
+    let savedGender: string | null = null
+    server.use(
+      http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: savedGender, role: 'USER' }, errorCode: null, message: null })),
+      http.get('*/api/auth/csrf', () => HttpResponse.json({ success: true, data: { token: 'test-csrf' }, errorCode: null, message: null })),
+      http.patch('*/api/members/me/gender', async ({ request }) => {
+        expect(request.headers.get('X-CSRF-TOKEN')).toBe('test-csrf')
+        savedGender = (await request.json() as { gender: string }).gender
+        return HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: savedGender, role: 'USER' }, errorCode: null, message: null })
+      }),
+    )
+    render(
+      <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+        <MemoryRouter initialEntries={['/inbody']}><App /></MemoryRouter>
+      </QueryClientProvider>,
+    )
+
+    await user.selectOptions(await screen.findByRole('combobox', { name: '성별' }), 'FEMALE')
+    await user.click(screen.getByRole('button', { name: '성별 저장' }))
+    await waitFor(() => expect(savedGender).toBe('FEMALE'))
+    expect(await screen.findByText('현재 성별: 여성')).toBeInTheDocument()
+  })
+
   it('shows_saved_courses_and_removes_an_unfavorited_course', async () => {
     const user = userEvent.setup()
     let saved = true
     server.use(
-      http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, errorCode: null, message: null })),
+      http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' }, errorCode: null, message: null })),
       http.get('*/api/members/me/favorites', () => HttpResponse.json({ success: true, data: saved ? [{ courseId: 17, courseName: '원주 수영 교실', sportCode: '12', sportName: '수영', facilityName: '원주체육관', address: '강원특별자치도 원주시', startTime: '09:00', endTime: '10:00', weekdays: '월', fee: 10000 }] : [], errorCode: null, message: null })),
       http.delete('*/api/courses/17/favorites', () => {
         saved = false

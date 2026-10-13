@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { useCurrentMember } from '../../auth/hooks/useCurrentMember'
+import { GenderProfileCard } from '../../auth/components/GenderProfileCard'
 import { backendOrigin } from '../../../shared/api/backendOrigin'
 import { getHome } from '../../home/api/homeApi'
 import { InBodyPhotoPanel } from '../components/InBodyPhotoPanel'
@@ -17,6 +18,7 @@ export function InBodyPage() {
 
   return <div className={styles.page}>
     <header><h1>인바디 기록</h1><p>사진에서 추출한 수치를 확인하고 저장하면 AI 운동 추천에 사용할 수 있어요.</p></header>
+    <GenderProfileCard gender={member.data.gender} />
     <InBodyPhotoPanel
       saveLabel="인바디 기록 저장하기"
       successMessage="인바디 기록을 저장했습니다. AI 운동 추천에서 이 기록을 사용할 수 있습니다."

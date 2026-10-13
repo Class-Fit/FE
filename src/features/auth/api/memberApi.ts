@@ -15,9 +15,22 @@ export async function getCurrentMember(): Promise<Member | null> {
 }
 
 export async function logout(): Promise<void> {
+  const token = await getCsrfToken()
+  await httpClient.post('/api/auth/logout', undefined, { headers: { 'X-CSRF-TOKEN': token } })
+}
+
+export async function updateGender(gender: NonNullable<Member['gender']>): Promise<Member> {
+  const token = await getCsrfToken()
+  const response = await httpClient.patch<ApiResponse<Member>>('/api/members/me/gender', { gender }, {
+    headers: { 'X-CSRF-TOKEN': token },
+  })
+  return unwrapApiResponse(response.data)
+}
+
+async function getCsrfToken(): Promise<string> {
   const response = await httpClient.get<ApiResponse<{ token: string }>>('/api/auth/csrf')
   const { token } = unwrapApiResponse(response.data)
-  await httpClient.post('/api/auth/logout', undefined, { headers: { 'X-CSRF-TOKEN': token } })
+  return token
 }
 
 function isUnauthorizedAxiosError(error: unknown): boolean {

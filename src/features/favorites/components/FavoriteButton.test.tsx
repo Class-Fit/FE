@@ -27,7 +27,7 @@ describe('FavoriteButton', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     favorite = false
-    useCurrentMemberMock.mockReturnValue({ data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, isPending: false } as ReturnType<typeof useCurrentMember>)
+    useCurrentMemberMock.mockReturnValue({ data: { id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' }, isPending: false } as ReturnType<typeof useCurrentMember>)
     getFavoritesMock.mockImplementation(async () => favorite ? [{ courseId: 17 } as Awaited<ReturnType<typeof getFavorites>>[number]] : [])
     addFavoriteMock.mockImplementation(async () => {
       favorite = true

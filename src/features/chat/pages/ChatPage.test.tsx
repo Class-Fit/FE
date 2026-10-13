@@ -11,7 +11,7 @@ let conversationCreated = false
 let messages: { messageId: number; role: string; content: string; recommendation: unknown }[] = []
 let savedWeight: number | null = null
 const server = setupServer(
-  http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, errorCode: null, message: null })),
+  http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' }, errorCode: null, message: null })),
   http.get('*/api/chat/conversations', () => HttpResponse.json(conversationCreated ? [{ conversationId: 7, title: '새로운 대화', createdAt: '2026-10-12T10:00:00' }] : [])),
   http.post('*/api/chat/conversations', () => { conversationCreated = true; return HttpResponse.json({ conversationId: 7, title: '새로운 대화' }) }),
   http.get('*/api/chat/conversations/7/messages', () => HttpResponse.json(messages)),

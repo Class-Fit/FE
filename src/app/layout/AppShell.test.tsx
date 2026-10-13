@@ -61,7 +61,7 @@ describe('AppShell', () => {
   it('shows_logout_instead_of_login_and_clears_session_state', async () => {
     let sentToken = ''
     server.use(
-      http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' })),
+      http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' })),
       http.get('*/api/auth/csrf', () => ok({ token: 'csrf-token' })),
       http.post('*/api/auth/logout', ({ request }) => {
         sentToken = request.headers.get('X-CSRF-TOKEN') ?? ''
@@ -83,7 +83,7 @@ describe('AppShell', () => {
 
   it('keeps_logout_visible_when_server_rejects_logout', async () => {
     server.use(
-      http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' })),
+      http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' })),
       http.get('*/api/auth/csrf', () => HttpResponse.json({ success: false, data: null, errorCode: 'FORBIDDEN', message: '접근 권한이 없습니다.' }, { status: 403 })),
     )
     const user = userEvent.setup()
