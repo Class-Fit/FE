@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useCurrentMember } from '../../auth/hooks/useCurrentMember'
 import { backendOrigin } from '../../../shared/api/backendOrigin'
 import { CourseCard } from '../../courses/components/CourseCard'
+import { InBodyPhotoPanel } from '../../inbody/components/InBodyPhotoPanel'
 import { createConversation, getConversations, getMessages, sendMessage, type ChatMessage } from '../api/chatApi'
 import styles from './ChatPage.module.css'
 
@@ -54,6 +55,16 @@ export function ChatPage() {
     if (activeId !== null && content && !send.isPending) send.mutate(content)
   }
 
+  async function recommendFromInBody() {
+    const conversationId = activeId ?? (await create.mutateAsync()).conversationId
+    await sendMessage(conversationId, '방금 저장한 최신 인바디 수치를 바탕으로 내게 맞는 운동 종목과 강좌를 추천해줘.')
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ['chat', 'messages', conversationId] }),
+      queryClient.invalidateQueries({ queryKey: ['chat', 'conversations'] }),
+      queryClient.invalidateQueries({ queryKey: ['home'] }),
+    ])
+  }
+
   if (member.isPending) return <p role="status">로그인 상태를 확인하는 중입니다.</p>
   if (member.isError) return <div role="alert">로그인 상태를 확인하지 못했습니다. <button type="button" onClick={() => member.refetch()}>다시 시도</button></div>
   if (!member.data) return <section className={styles.gate}>
@@ -65,6 +76,7 @@ export function ChatPage() {
 
   return <section className={styles.page}>
     <header className={styles.header}><div><span>CLASSFIT AI</span><h1>AI 운동 추천</h1><p>원하는 운동과 지역을 이야기하면 강좌를 함께 찾아드려요.</p></div></header>
+    <InBodyPhotoPanel onSaved={recommendFromInBody} />
     <div className={styles.layout}>
       <aside className={styles.sidebar} aria-label="대화 목록">
         <button type="button" onClick={() => create.mutate()} disabled={create.isPending}><Plus aria-hidden="true" size={18} /> 새 대화</button>
