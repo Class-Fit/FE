@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest'
@@ -42,5 +43,28 @@ describe('App', () => {
 
     expect(await screen.findByRole('heading', { name: '인바디 기록' })).toBeInTheDocument()
     expect(screen.getByLabelText('인바디 사진')).toBeInTheDocument()
+  })
+
+  it('shows_saved_courses_and_removes_an_unfavorited_course', async () => {
+    const user = userEvent.setup()
+    let saved = true
+    server.use(
+      http.get('*/api/members/me', () => HttpResponse.json({ success: true, data: { id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' }, errorCode: null, message: null })),
+      http.get('*/api/members/me/favorites', () => HttpResponse.json({ success: true, data: saved ? [{ courseId: 17, courseName: '원주 수영 교실', sportCode: '12', sportName: '수영', facilityName: '원주체육관', address: '강원특별자치도 원주시', startTime: '09:00', endTime: '10:00', weekdays: '월', fee: 10000 }] : [], errorCode: null, message: null })),
+      http.delete('*/api/courses/17/favorites', () => {
+        saved = false
+        return HttpResponse.json({ success: true, data: { courseId: 17, favorited: false }, errorCode: null, message: null })
+      }),
+    )
+    render(
+      <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+        <MemoryRouter initialEntries={['/favorites']}><App /></MemoryRouter>
+      </QueryClientProvider>,
+    )
+
+    expect(await screen.findByRole('link', { name: '원주 수영 교실' })).toHaveAttribute('href', '/courses/17')
+    await user.click(screen.getByRole('button', { name: '찜 취소' }))
+    await waitFor(() => expect(screen.queryByRole('link', { name: '원주 수영 교실' })).not.toBeInTheDocument())
+    expect(screen.getByText('아직 찜한 강좌가 없습니다.')).toBeInTheDocument()
   })
 })
