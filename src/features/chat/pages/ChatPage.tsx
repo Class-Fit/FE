@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Bot, Plus, Send } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCurrentMember } from '../../auth/hooks/useCurrentMember'
+import { GenderProfileCard } from '../../auth/components/GenderProfileCard'
 import { backendOrigin } from '../../../shared/api/backendOrigin'
 import { CourseCard } from '../../courses/components/CourseCard'
 import { InBodyPhotoPanel } from '../../inbody/components/InBodyPhotoPanel'
@@ -76,6 +77,7 @@ export function ChatPage() {
 
   return <section className={styles.page}>
     <header className={styles.header}><div><span>CLASSFIT AI</span><h1>AI 운동 추천</h1><p>원하는 운동과 지역을 이야기하면 강좌를 함께 찾아드려요.</p></div></header>
+    <GenderProfileCard gender={member.data.gender} />
     <InBodyPhotoPanel onSaved={recommendFromInBody} />
     <div className={styles.layout}>
       <aside className={styles.sidebar} aria-label="대화 목록">

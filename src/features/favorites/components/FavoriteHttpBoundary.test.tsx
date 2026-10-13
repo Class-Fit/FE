@@ -9,7 +9,7 @@ import { FavoriteButton } from './FavoriteButton'
 const ok = (data: unknown) => HttpResponse.json({ success: true, data, errorCode: null, message: null })
 let favoriteIds: number[] = []
 const server = setupServer(
-  http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: 'UNKNOWN', role: 'USER' })),
+  http.get('*/api/members/me', () => ok({ id: 1, name: '테스터', email: 'test@example.com', gender: null, role: 'USER' })),
   http.get('*/api/members/me/favorites', () => ok(favoriteIds.map((courseId) => ({ courseId })))),
   http.post('*/api/courses/:id/favorites', ({ params }) => {
     favoriteIds.push(Number(params.id))
